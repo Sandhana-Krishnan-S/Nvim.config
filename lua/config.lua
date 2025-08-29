@@ -1,7 +1,3 @@
--- Enable Systets clipboard
-
-vim.opt.clipboard = "unnamedplus"
-
 -- basic config
 
 vim.opt.number = true
