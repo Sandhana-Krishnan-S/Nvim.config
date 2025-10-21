@@ -14,9 +14,16 @@ return require('packer').startup(function(use)
  use { "nvim-treesitter/nvim-treesitter", run = ":TsUpdate" }
  use { "ThePrimeagen/harpoon" }
  use { "mbbill/undotree" }
- use 'neovim/nvim-lspconfig'
- use { "williamboman/mason.nvim", run = ":MasonUpdate" }
+
+ use "neovim/nvim-lspconfig"
+ use "williamboman/mason.nvim"
  use "williamboman/mason-lspconfig.nvim"
+ use "hrsh7th/nvim-cmp"
+ use "hrsh7th/cmp-nvim-lsp"
+ use "L3MON4D3/LuaSnip"
+
+ -- JAVA
+ use 'mfussenegger/nvim-jdtls'
 
  -- Completion
  use 'hrsh7th/nvim-cmp'

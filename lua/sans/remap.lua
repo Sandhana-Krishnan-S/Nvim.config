@@ -15,4 +15,4 @@ vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 
 
 -- paste content without adding highlight content to curr buffer
-vim.keymap.set("x", "<leader>p", "\"_dP")
+vim.keymap.set("x", "<leader>P", "\"_dP")
