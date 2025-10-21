@@ -78,7 +78,7 @@ end
 -- TypeScript / JavaScript
 lsp('ts_ls', {
   capabilities = capabilities,
-  LspAttach = LspAttach,
+  on_attach = LspAttach,
   root_dir = fallback_root,
   single_file_support = true,
 })
@@ -86,7 +86,7 @@ lsp('ts_ls', {
 -- Python
 lsp('pyright', {
   capabilities = capabilities,
-  LspAttach = LspAttach,
+  on_attach = LspAttach,
   root_dir = fallback_root,
 })
 
@@ -96,7 +96,7 @@ vim.fn.expand("~/.local/share/nvim/mason/packages/omnisharp/OmniSharp")
 lsp('omnisharp', {
   cmd = { omnisharp_bin, "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
   capabilities = capabilities,
-  LspAttach = LspAttach,
+  on_attach = LspAttach,
   root_dir = fallback_root,
 })
 
@@ -123,7 +123,7 @@ vim.api.nvim_create_autocmd("FileType", {
       },
       root_dir = root_dir,
       capabilities = capabilities,
-      LspAttach = LspAttach,
+      on_attach = LspAttach,
     }
 
     jdtls.start_or_attach(config)
