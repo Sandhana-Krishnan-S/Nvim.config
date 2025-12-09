@@ -58,24 +58,35 @@ local LspAttach = function(_, bufnr)
 end
 
 -- Helper: fallback root (handles single files)
-local function fallback_root(fname)
-  return util.root_pattern(".git")(fname)
-  or util.root_pattern(
-    "package.json",
-    "tsconfig.json",
-    "setup.py",
-    "pyproject.toml",
-    "pom.xml",
-    "*.csproj"
-  )(fname)
-  or util.path.dirname(fname)
-end
+local function fallback_root(bufnr, on_dir)
+  -- Get the full path of the current buffer
+  local fname = vim.api.nvim_buf_get_name(bufnr)
 
--- ======================
+  -- Try to find a project root
+  local root = util.root_pattern(".git")(fname)
+    or util.root_pattern(
+      "package.json",
+      "tsconfig.json",
+      "setup.py",
+      "pyproject.toml",
+      "pom.xml",
+      "*.csproj"
+    )(fname)
+    or util.path.dirname(fname)
+
+  -- Only activate LSP if we found a root
+  if root then
+    on_dir(root)
+  end
+end
 -- 💻 Language Servers
 -- ======================
 
--- TypeScript / JavaScript
+-- ======================
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
+local lsp = vim.lsp.config
+
+-- TS / JS
 lsp('ts_ls', {
   capabilities = capabilities,
   on_attach = LspAttach,
@@ -91,16 +102,12 @@ lsp('pyright', {
 })
 
 -- C#
-local omnisharp_bin =
-vim.fn.expand("~/.local/share/nvim/mason/packages/omnisharp/OmniSharp")
 lsp('omnisharp', {
   cmd = { omnisharp_bin, "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
   capabilities = capabilities,
   on_attach = LspAttach,
   root_dir = fallback_root,
 })
-
--- ======================
 -- ☕ Java (JDTLS) Setup — CORRECT WAY
 -- ======================
 -- We do NOT use lspconfig.jdtls.setup here
